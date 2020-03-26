@@ -48,3 +48,10 @@
   margin: 2px;
 }
 
+.upSelected{
+  background-color: orange;
+}
+
+.downSelected{
+  background-color: lightskyblue;
+}

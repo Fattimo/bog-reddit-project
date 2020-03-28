@@ -75,6 +75,11 @@ router.delete("/posts/:id", controllers.posts.delete);
 router.post("/posts/:id/comment", controllers.posts.comment);
 
 /**
+ * Create a new dummy post at a particular date
+ */
+router.post("/posts/date", controllers.posts.dateDummy)
+
+/**
  * Get all comments on the server.
  * @route GET /comments
  * @group Comments - Operations about comments

@@ -22,13 +22,16 @@ const Comment = props => {
         setDownvote(!downvote)
         //raise by one then raise by one
         setTotVotes(totVotes+2)
+        props.updateDownvoteEngagement(props.downvoteEngagement - 1)
       } else {//the downvote button was off
         //raise by one
         setTotVotes(totVotes+1)
       }
+      props.updateUpvoteEngagement(props.upvoteEngagement + 1)
     } else { // the upvote has been toggled off
       //decrement by one
       setTotVotes(totVotes-1)
+      props.updateUpvoteEngagement(props.upvoteEngagement - 1)
     }
     setUpvote(!upvote)//NOTE: state change is async, so do it at the end of non async operation
   }
@@ -39,13 +42,16 @@ const Comment = props => {
         setUpvote(!upvote)
         //decrement by one then decrement by one
         setTotVotes(totVotes-2)
+        props.updateUpvoteEngagement(props.upvoteEngagement - 1)
       } else {
         //decrement by one
         setTotVotes(totVotes-1)
       }
+      props.updateDownvoteEngagement(props.downvoteEngagement + 1)
     } else { //the downvote button has been toggled off
       //increment by one
       setTotVotes(totVotes+1)
+      props.updateDownvoteEngagement(props.downvoteEngagement - 1)
     }
     setDownvote(!downvote)
   }

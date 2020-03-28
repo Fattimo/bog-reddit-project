@@ -22,7 +22,7 @@ const App = () => {
     // get the current date to send to the server (for accuracy)
     const date = new Date()
     const dateString = date.toISOString()
-
+    
     fetch(`/api/posts?dateRange=${selectedDateRange}&currDate=${dateString}`)
       .then(response => response.json())
       .then(data => setPosts(data.posts))
@@ -100,6 +100,9 @@ const App = () => {
     })
   }
 
+  const [upvotes, setUpvoteEngagement] = React.useState(posts.reduce((acc,curr) => (curr.upvotes + acc), 0))
+  const [downvotes, setDownvoteEngagement] = React.useState(posts.reduce((acc, curr) => curr.downvotes + acc, 0))
+
   return (
     <>
       <h1>Bits of Good Bootcamp -- Reddit</h1>
@@ -115,8 +118,16 @@ const App = () => {
           onCommentDelete={deleteComment}
           onCommentEdit={editComment}
           onSubComment={createSubComment}
+          upvoteEngagement = {upvotes}
+          updateUpvoteEngagement={setUpvoteEngagement}
+          downvoteEngagement ={downvotes}
+          updateDownvoteEngagement={setDownvoteEngagement}
         />
       ))}
+      <section>
+        <p>Number of Upvotes: {upvotes}</p>
+        <p>Number of Downvotes: {downvotes}</p>
+      </section>
     </>
   )
 }

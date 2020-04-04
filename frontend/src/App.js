@@ -11,12 +11,18 @@ const App = () => {
     fetch('/api/posts')
       .then(res => res.json())
       .then(data => {
-        setPosts(data.posts)
-        
-      }).then(() => {
-        setUpvoteEngagement(posts.reduce((acc,curr) => (curr.upvotes + acc), 0))
-        setDownvoteEngagement(posts.reduce((acc,curr) => (curr.downvotes + acc), 0))
+        setPosts((state, props) => {
+          return data.posts
+        })
+        console.log(data.posts)
+        setDownvoteEngagement(data.posts.reduce((acc, post) => {
+          //console.log(post)
+          return acc + parseInt(post.downVotes)}, 0))
+        setUpvoteEngagement(data.posts.reduce((acc, post) => {
+          //console.log(post)
+          return acc + parseInt(post.upVotes)}, 0))
       })
+      
   }
 
   React.useEffect(() => {

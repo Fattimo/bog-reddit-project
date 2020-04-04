@@ -70,4 +70,26 @@ postSchema.static("findByIdAndAddComment", function(id, commentData) {
     .then(post => this.findById(post.id).populate("comments"));
 });
 
+postSchema.static("changeUpVote", function(id, change) {
+  return this.findById(id)
+    .then(post => {
+      if (post === null) {
+        throw new Error(`Post with id ${id} was not found`);
+      }
+      post.upVotes = post.upVotes + change
+      return post.save()
+    })
+})
+
+postSchema.static("changeDownVote", function(id, change) {
+  return this.findById(id)
+    .then(post => {
+      if (post === null) {
+        throw new Error(`Post with id ${id} was not found`);
+      }
+      post.downVotes = post.downVotes + change
+      return post.save()
+    })
+})
+
 module.exports = mongoose.model("Post", postSchema);

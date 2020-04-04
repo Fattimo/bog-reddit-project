@@ -166,3 +166,37 @@ module.exports.dateDummy = (req, res, next) => {
       return next()
     })
 }
+
+
+module.exports.upVote = (req, res, next) => {
+  // console.log(req.params.toggle)
+  // console.log(req.params.toggle==="true" ? -1:1)
+  Post.changeUpVote(req.params.id, req.params.toggle==="true" ? -1:1)
+  .then(post => {
+    res.locals.data = { post }
+    res.locals.status = 200
+    return next()
+  })
+  .catch(err => {
+    console.error(err)
+    res.locals.error = { error: err.message }
+    res.locals.status = 400
+    return next()
+  })
+}
+
+module.exports.downVote = (req, res, next) => {
+
+  Post.changeDownVote(req.params.id, req.params.toggle==="true" ? -1:1)
+  .then(post => {
+    res.locals.data = { post }
+    res.locals.status = 200
+    return next()
+  })
+  .catch(err => {
+    console.error(err)
+    res.locals.error = { error: err.message }
+    res.locals.status = 400
+    return next()
+  })
+}

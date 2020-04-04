@@ -80,6 +80,18 @@ router.post("/posts/:id/comment", controllers.posts.comment);
 router.post("/posts/date", controllers.posts.dateDummy)
 
 /**
+ * upvote
+ */
+
+ router.patch("/posts/upvote/:id/:toggle", controllers.posts.upVote)
+
+ /**
+ * downvote
+ */
+
+router.patch("/posts/downvote/:id/:toggle", controllers.posts.downVote)
+
+/**
  * Get all comments on the server.
  * @route GET /comments
  * @group Comments - Operations about comments

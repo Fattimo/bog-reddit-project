@@ -10,7 +10,13 @@ const App = () => {
   const getPosts = () => {
     fetch('/api/posts')
       .then(res => res.json())
-      .then(data => setPosts(data.posts))
+      .then(data => {
+        setPosts(data.posts)
+        
+      }).then(() => {
+        setUpvoteEngagement(posts.reduce((acc,curr) => (curr.upvotes + acc), 0))
+        setDownvoteEngagement(posts.reduce((acc,curr) => (curr.downvotes + acc), 0))
+      })
   }
 
   React.useEffect(() => {
@@ -100,8 +106,32 @@ const App = () => {
     })
   }
 
-  const [upvotes, setUpvoteEngagement] = React.useState(posts.reduce((acc,curr) => (curr.upvotes + acc), 0))
-  const [downvotes, setDownvoteEngagement] = React.useState(posts.reduce((acc, curr) => curr.downvotes + acc, 0))
+  const togglePostUpVote = (postId, toggle) => {
+    fetch('/api/posts/upvote/' + postId + "/" + toggle, { method: 'PATCH',})
+      .then(res => res.json())
+      .then(data => {
+        // if post Id matches the edited post, update
+        const postsWithIdEdited = posts.map(post =>
+          postId === post._id ? data.post : post
+        )
+        setPosts(postsWithIdEdited)
+      })
+    }
+
+    const togglePostDownVote = (postId, toggle) => {
+      fetch('/api/posts/downvote/' + postId + "/" + toggle, { method: 'PATCH',})
+        .then(res => res.json())
+        .then(data => {
+          // if post Id matches the edited post, update
+          const postsWithIdEdited = posts.map(post =>
+            postId === post._id ? data.post : post
+          )
+          setPosts(postsWithIdEdited)
+        })
+      }
+
+  const [upvotes, setUpvoteEngagement] = React.useState(0)
+  const [downvotes, setDownvoteEngagement] = React.useState(0)
 
   return (
     <>
@@ -118,6 +148,8 @@ const App = () => {
           onCommentDelete={deleteComment}
           onCommentEdit={editComment}
           onSubComment={createSubComment}
+          toggleUpVote = {togglePostUpVote}
+          toggleDownVote = {togglePostDownVote}
           upvoteEngagement = {upvotes}
           updateUpvoteEngagement={setUpvoteEngagement}
           downvoteEngagement ={downvotes}

@@ -26,16 +26,19 @@ const Post = props => {
       if (downvote) {//the downvote button was on
         setDownvote(!downvote)
         //raise by one then raise by one
+        props.toggleDownVote(props.post._id, downvote)
         setTotVotes(totVotes+2)
         props.updateDownvoteEngagement(props.downvoteEngagement - 1)
-      } else {//the downvote button was off
+      } else {//the downvote button was off, post was at neutral
         //raise by one
         setTotVotes(totVotes+1)
       }
       props.updateUpvoteEngagement(props.upvoteEngagement + 1)
+      props.toggleUpVote(props.post._id, upvote)
     } else { // the upvote has been toggled off
       //decrement by one
       setTotVotes(totVotes-1)
+      props.toggleUpVote(props.post._id, upvote)
       props.updateUpvoteEngagement(props.upvoteEngagement - 1)
     }
     setUpvote(!upvote)//NOTE: state change is async, so do it at the end of non async operation
@@ -46,16 +49,19 @@ const Post = props => {
       if (upvote) {
         setUpvote(!upvote)
         //decrement by one then decrement by one
+        props.toggleUpVote(props.post._id, upvote)
         setTotVotes(totVotes-2)
         props.updateUpvoteEngagement(props.upvoteEngagement - 1)
       } else {
         //decrement by one
         setTotVotes(totVotes-1)
       }
+      props.toggleDownVote(props.post._id, downvote)
       props.updateDownvoteEngagement(props.downvoteEngagement + 1)
     } else { //the downvote button has been toggled off
       //increment by one
       setTotVotes(totVotes+1)
+      props.toggleDownVote(props.post._id, downvote)
       props.updateDownvoteEngagement(props.downvoteEngagement - 1)
     }
     setDownvote(!downvote)
